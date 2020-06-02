@@ -517,6 +517,18 @@ var game = function(){
 	}
 }
 
+// ページスクロール抑制
+var keydownfunc = function( event ){
+	var code = event.keyCode;
+	switch( code ){
+	case 32:	// Space
+	case 37:	// ←
+	case 38:	// ↑
+	case 39:	// →
+	case 40:	// ↓
+		event.preventDefault();
+	}
+}
 
 //=========================================================
 // 所謂メイン関数

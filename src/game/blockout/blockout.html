@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" type="image/x-icon" href="../../../favicon.ico">
+	<link rel="icon" href="../../../favicon.ico">
+	<link rel="apple-touch-icon" href="../../../favicon.png" sizes="152x152">
+	<title>ブロック崩し</title>
+	<script type="text/javascript" src="../input.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<style type="text/css">
+		body{
+			//width : 100%;
+			text-align : center;
+		}
+		
+		.game{
+			margin-top : 20px;
+		}
+		
+		.manual{
+			text-align : left;
+			position : relative;
+			right : 0px;
+			display : inline-block;
+		}
+		
+		p{
+			font-weight : bold;
+		}
+	</style>
+</head>
+
+<!-- キー取得 -->
+<body
+onKeyDown ="Input.onKeyDown(event.keyCode)"
+onKeyUp   ="Input.onKeyUp(event.keyCode)">
+
+	<div class="game">
+		<!-- キャンバス -->
+		<canvas id = "myCanvas" width = "640" height = "480" style="background:black"></canvas>
+	</div>
+	<hr/>
+	
+	<div class="manual">
+		<p size="5px">
+			・操作説明<br/>
+			← →キー：バーの左右移動<br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			ボールが当たった瞬間にバーが移動しているとボールの反射角を少し変える事ができる。<br/>
+			Zキー&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;：ボールに当たると少しの間ボールを加速する事ができる。<br/>
+			ゲームオーバーもゲームクリアも無く即タイトル画面に戻ります。<br/>
+		</p>
+		学生時代の最初の課題がブロック崩しでした。<br/>
+		当時作った物とはまったく別物ですけどそれを思い出しHTML5とCanvasで作ってみました。<br/>
+		ボールとバーが当たった時の挙動に怪しい所もありますが物理の使い方を知らない<br/>
+		（Javascriptにあるのかも不明）のでこんなものかと。<br/>
+		HTMLもCSSもJavascriptもまだまだ初心者かつ久しぶりなのでとりあえずこれで一旦完成ということで。
+	<div>
+	
+</body>
+</html>

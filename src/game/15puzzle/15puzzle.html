@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" type="image/x-icon" href="../../../favicon.ico">
+	<link rel="icon" href="../../../favicon.ico">
+	<link rel="apple-touch-icon" href="../../../favicon.png" sizes="152x152">
+	<title>15パズル</title>
+	<script type="text/javascript" src="../input.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<style type="text/css">
+		body{
+			//width : 100%;
+			text-align : center;
+		}
+		
+		.game{
+			margin-top : 20px;
+		}
+		
+		.manual{
+			text-align : left;
+			position : relative;
+			right : 0px;
+			display : inline-block;
+		}
+		
+		p{
+			font-weight : bold;
+		}
+	</style>
+</head>
+
+<!-- キー取得 -->
+<body
+onKeyDown ="Input.onKeyDown(event.keyCode)"
+onKeyUp   ="Input.onKeyUp(event.keyCode)">
+
+	<div class="game">
+		<!-- キャンバス -->
+		<canvas id = "myCanvas" width = "512" height = "512" style="background:black"></canvas>
+		<img src="../resource/15puzzle.png" title="Sample" width="256" height="256">
+	</div>
+	<hr/>
+	
+	<div class="manual">
+		<p size="5px">
+			・操作説明<br/>
+			左クリックのみ使用<br/>
+			黒いマスの上下左右をクリックするとマスが移動します。<br/>
+			右の表示されているサンプル画像になるようにパネルを移動させて完成させてください。<br/>
+			ゲームクリアでタイトル画面に自動で戻ります（手抜き）<br/>
+		</p>
+		学生時代の2つ目の課題の15パズルを思い出しながら作ってみました。<br/>
+		色々と考え足らずで作ったせいでマスの交換処理を盛大にミスしてコードがほぼ崩壊状態になってしまった…<br/>
+		1次元配列より2次元配列で作った方が良かった気がする…と色々反省。<br/>
+		あと相変わらず不定期に作ってるせいでJavaScript忘れてる。<br/>
+	<div>
+	
+</body>
+</html>

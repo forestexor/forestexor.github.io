@@ -12,6 +12,7 @@ const PULL = 1 << 4;
 
 // 入力機器クラス
 class CInput{
+	// キーボード
 	#Key = class CKey{
 		constructor( code ){
 			this.code = code;
@@ -136,6 +137,7 @@ class CInput{
 	get Ten8(){ return this.#Ten8.state; };
 	get Ten9(){ return this.#Ten9.state; };
 	
+	// マウス
 	#MOUSE = class CMouse{
 		constructor(){
 			this.button = false;
@@ -146,6 +148,53 @@ class CInput{
 	}
 	#Mouse = new this.#MOUSE();
 	get Mouse(){ return this.#Mouse; }
+	
+	// ゲームパッド
+/*
+	XBOX360
+	 0:A    /  1:B     /  2:X  /  3:Y
+	 4:L    /  5:R     /  6:LT /  7:RT
+	 8:BACK /  9:START / 10:LS / 11:RS
+	12:↑   / 13:↓    / 14:← / 15:→
+*/	
+	#GamePad = class CGamePad{
+		#Button = [ null,null,null,null,
+					null,null,null,null,
+					null,null,null,null,
+					null,null,null,null];
+		#LX = null;
+		#LY = null;
+		#RX = null;
+		#RY = null;
+		constructor(){
+		}
+		get Button(){ return this.#Button; }
+		get LX(){ if( null == this.#LX ){ return 0; }else{ return this.#LX; } }
+		set LX( val ){ this.#LX = val; }
+		get LY(){ if( null == this.#LY ){ return 0; }else{ return this.#LY; } }
+		set LY( val ){ this.#LY = val; }
+		get RX(){ if( null == this.#RX ){ return 0; }else{ return this.#RX; } }
+		set RX( val ){ this.#RX = val; }
+		get RY(){ if( null == this.#RY ){ return 0; }else{ return this.#RY; } }
+		set RY( val ){ this.#RY = val; }
+		
+		Initialize(){
+			for( let i = 0 ; i < this.#Button.length ; i++ ){
+				this.#Button[i] = FREE;
+			}
+		}
+		Finalize(){
+			for( let i = 0 ; i < this.#Button.length ; i++ ){
+				this.#Button[i] = null;
+			}
+			this.#LX = null;
+			this.#LY = null;
+			this.#RX = null;
+			this.#RY = null;
+		}
+	}
+	#Pad = new this.#GamePad();
+	get Pad(){ return this.#Pad; }
 	
 	constructor(){
 		this.#keys.push( this.#Enter );
@@ -217,6 +266,7 @@ class CInput{
 	}
 
 	Update(){
+		// キーボード
 		for( let i = 0 ; i < this.#keys.length ; i++ ){
 			if( this.#codes[this.#keys[i].code] ){
 				switch( this.#keys[i].state ){
@@ -236,6 +286,8 @@ class CInput{
 				}
 			}
 		}
+		
+		// マウス
 		if( this.#Mouse.button ){
 			switch( this.#Mouse.State ){
 			case STOP:	break;
@@ -252,6 +304,34 @@ class CInput{
 			case HOLD:	this.#Mouse.State = PULL;	break;
 			case PULL:	this.#Mouse.State = FREE;	break;
 			}
+		}
+		
+		// ゲームパッド
+		let pad = navigator.getGamepads()[0];
+		if( null != pad ){
+			for( let i = 0 ; i < pad.buttons.length ; i++ ){
+				if( true == pad.buttons[i].pressed ){
+					switch( this.#Pad.Button[i] ){
+					case STOP:	break;
+					case FREE:	this.#Pad.Button[i] = PUSH;	break;
+					case PUSH:	this.#Pad.Button[i] = HOLD;	break;
+					case HOLD:	break;
+					case PULL:	this.#Pad.Button[i] = PUSH;	break;
+					}
+				}else{
+					switch( this.#Pad.Button[i] ){
+					case STOP:	break;
+					case FREE:	break;
+					case PUSH:	this.#Pad.Button[i] = PULL;	break;
+					case HOLD:	this.#Pad.Button[i] = PULL;	break;
+					case PULL:	this.#Pad.Button[i] = FREE;	break;
+					}
+				}
+			}
+			this.#Pad.LX = pad.axes[0];
+			this.#Pad.LY = pad.axes[1];
+			this.#Pad.RX = pad.axes[2];
+			this.#Pad.RY = pad.axes[3];
 		}
 	}
 }

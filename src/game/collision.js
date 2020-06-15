@@ -8,14 +8,12 @@ class IShape{
 	#type;
 	get Type(){ return this.#type; }
 	
-//	constructor( type, px=0, py=0, rot=0, sx=1, sy=1 ){
 	constructor( type, px=0, py=0, rot=0 ){
 		this.#num = IShape.#Number++;
 		this.#type = type;
 		this.Body = IShape.GHOST;
 		this.Pos = new CVector2( px, py );
 		this.Rot = new CVector3( 0.0, 0.0, rot );
-//		this.Scl = new CVector2( sx, sy );
 		this.Vec = new CVector2( 0.0, 0.0 );
 	}
 	
@@ -45,6 +43,7 @@ class CCircle extends IShape{
 		this.Pos.x += this.Vec.x;
 		this.Pos.y += this.Vec.y;
 	}
+	
 	// デバッグ描画
 	DebugRender( ctx, Camera = null ){
 		ctx.beginPath();
@@ -58,7 +57,6 @@ class CCircle extends IShape{
 			ctx.translate( this.Pos.x, this.Pos.y );
 		}
 		ctx.rotate( this.Rot.z );
-//		ctx.scale( this.Scl.x, this.Scl.y );
 		
 		ctx.strokeStyle = "rgba( 255, 255, 255, 1.0 )";
 		ctx.lineWidth = 1.0;
@@ -145,7 +143,6 @@ class CBox extends IShape{
 			ctx.translate( this.Pos.x, this.Pos.y );
 		}
 		ctx.rotate( this.Rot.z );
-//		ctx.scale( this.Scl.x, this.Scl.y );
 		
 		ctx.strokeStyle = "rgba( 255, 255, 255, 1.0 )";
 		ctx.lineWidth = 1.0;
@@ -204,13 +201,15 @@ class CFixedBox extends IShape{
 	}
 }
 
-//=======================================================================
+//========================================================================
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+//========================================================================
 
 // 衝突検出クラス
 class Collision{
 	
 	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-	
 	// 衝突検出
 	static Detect( s0, s1 ){
 		switch( s0.Type ){
@@ -260,6 +259,392 @@ class Collision{
 				return Collision.Detect_BOX_FBOX( s1, s0 );break;
 			case IShape.FBOX:
 				return Collision.Detect_FBOX_FBOX( s0, s1 );break;
+			}
+			break;
+		}
+		return false;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 円と円
+	static Detect_CIRCLE_CIRCLE( c0, c1 ){
+		let v = new CVector2( (c1.Pos.x - c0.Pos.x), (c1.Pos.y - c0.Pos.y));
+		let d = Math.sqrt( ((v.x*v.x) + (v.y*v.y)) );
+		let r = c0.Radius + c1.Radius;
+		if( r >= d ){
+			return true;
+		}
+		return false;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 円と線
+	static Detect_CIRCLE_LINE( c, l ){
+		// ベクトルを生成
+		let vAB = new CVector2( (l.ePos.x-l.Pos.x), (l.ePos.y-l.Pos.y) );
+		let vAP = new CVector2( (c.Pos.x-l.Pos.x), (c.Pos.y-l.Pos.y) );
+		let vBP = new CVector2( (c.Pos.x-l.ePos.x), (c.Pos.y-l.ePos.y) );
+		// ABの単位ベクトルを計算
+		let nAB = CVector2.Unit( vAB );
+		// AからXまでの距離を単位ベクトルABとベクトルAPの内積で求める
+		let lenAX = CVector2.Dot( nAB, vAP );
+		
+		let shortestDistance = 0.0;	// 線分APとPの最短距離
+		if( 0 > lenAX ){
+			// AXが負ならAPが円の中心までの最短距離
+			shortestDistance = CVector2.Length( vAP );
+		}else if( CVector2.Length( vAB ) < lenAX ){
+			// AXがAPよりも長い場合は、BPが円の中心
+			// までの最短距離
+			shortestDistance = CVector2.Length( vBP );
+		}else{
+			// PがAB上にあるので、PXが最短距離単位ベクトルABとベクトルAPの外積で求める
+			shortestDistance = Math.abs( CVector2.Cross( nAB, vAP ) );
+		}
+		
+		// Xの座標を求める(AXの長さより計算）
+		let vX = new CVector2(l.Pos.x + (nAB.x * lenAX), l.Pos.y + (nAB.y * lenAX));
+		
+		// 最短距離が円の半径よりも小さい場合は、当たり
+		if( shortestDistance < c.Radius ){
+			return true;
+		}
+		return false;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 線と線
+	static Detect_LINE_LINE( l0, l1 ){
+		let v = new CVector2((l1.Pos.x-l0.Pos.x), (l1.Pos.y-l0.Pos.y));
+		let v0 = new CVector2((l0.ePos.x-l0.Pos.x), (l0.ePos.y-l0.Pos.y));
+		let v1 = new CVector2((l1.ePos.x-l1.Pos.x), (l1.ePos.y-l1.Pos.y));
+		let Crs_v0_v1 = CVector2.Cross( v0, v1 );
+		if( 0.0 == Crs_v0_v1 ){
+			return false;	// 平行
+		}
+		
+		let Crs_v_v0 = CVector2.Cross( v, v0 );
+		let Crs_v_v1 = CVector2.Cross( v, v1 );
+		let t1 = Crs_v_v1 / Crs_v0_v1;
+		let t2 = Crs_v_v0 / Crs_v0_v1;
+		
+		const eps = 0.00001;	// floatの誤差補正用
+		if((0 > (t1+eps)) || (1 < (t1-eps)) || (0 > (t2+eps)) || (1 < (t2-eps))){
+			return false;	// 交差していない
+		}
+/*		
+		// 交点座標
+		CVector2 pos = new CVector2();
+		pos.x = (l0.Pos.x + (l0.ePos.x * t1));
+		pos.y = (l0.Pos.y + (l0.ePos.y * t1));
+*/		
+		return true;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+	// OBB用分離軸に投影された軸成分から投影線分長を算出
+	static _LenSegOnSeparateAxis( vSep, vE1, vE2 ){
+		// 3つの内積の絶対値の和で投影線分長を計算
+		// 分離軸Sepは標準化されていること
+		let r1 = Math.abs( CVector2.Dot(vSep, vE1) );
+		let r2 = Math.abs( CVector2.Dot(vSep, vE2) );
+		return (r1 + r2);
+	}
+	
+	// OBBとOBB
+	static Detect_BOX_BOX( b0, b1 ){
+		let m = new CMatrix();
+		CMatrix.RotationZ( m, b0.Rot.z );
+		let NAe1 = new CVector2( m._11, m._12 );
+		let Ae1 = new CVector2(NAe1.x*b0.XRadius, NAe1.y*b0.XRadius);
+		let NAe2 = new CVector2( m._21, m._22 );
+		let Ae2 = new CVector2(NAe2.x*b0.YRadius, NAe2.y*b0.YRadius);
+		
+		CMatrix.RotationZ( m, b1.Rot.z );
+		let NBe1 = new CVector2( m._11, m._12 );
+		let Be1 = new CVector2(NBe1.x*b1.XRadius, NBe1.y*b1.XRadius);
+		let NBe2 = new CVector2( m._21, m._22 );
+		let Be2 = new CVector2(NBe2.x*b1.YRadius, NBe2.y*b1.YRadius);
+		let Interval = new CVector2( (b0.Pos.x-b1.Pos.x), (b0.Pos.y-b1.Pos.y) );
+		
+		let len, temp;
+		let n = new CVector2();
+		
+		// 分離軸 : Ae1
+		let rA = CVector2.Length( Ae1 );
+		let rB = Collision._LenSegOnSeparateAxis( NAe1, Be1, Be2 );
+		let L = Math.abs( CVector2.Dot(Interval, NAe1) );
+		if( L > (rA + rB) ){
+			return false; // 衝突していない
+		}
+		
+		// 分離軸 : Ae2
+		rA = CVector2.Length( Ae2 );
+		rB = Collision._LenSegOnSeparateAxis( NAe2, Be1, Be2 );
+		L = Math.abs( CVector2.Dot(Interval, NAe2) );
+		if( L > (rA + rB) ){
+			return false;
+		}
+		
+		// 分離軸 : Be1
+		rA = Collision._LenSegOnSeparateAxis( NBe1, Ae1, Ae2 );
+		rB = CVector2.Length( Be1 );
+		L = Math.abs( CVector2.Dot(Interval, NBe1) );
+		if( L > (rA + rB) ){
+			return false;
+		}
+		
+		// 分離軸 : Be2	
+		rA = Collision._LenSegOnSeparateAxis( NBe2, Ae1, Ae2 );
+		rB = CVector2.Length( Be2 );
+		L = Math.abs( CVector2.Dot(Interval, NBe2) );
+		if( L > (rA + rB) ){
+			return false;
+		}
+
+		// 分離平面が存在しないので「衝突している」
+		return true;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 円とOBB
+	static Detect_CIRCLE_BOX( c, b ){
+		let m = new CMatrix();
+		CMatrix.RotationZ( m, b.Rot.z );
+		let vX = new CVector2( m._11, m._12 );
+		let vY = new CVector2( m._21, m._22 );
+		let vInterval = new CVector2((c.Pos.x - b.Pos.x), (c.Pos.y - b.Pos.y));
+
+		let v = new CVector2( 0, 0 );
+		if( b.XRadius > 0.0 ){
+			let s = Math.abs((CVector2.Dot(vInterval,vX) / b.XRadius));
+			if( s > 1.0 ){
+				v.x += (vX.x * (1.0-s) * b.XRadius);
+				v.y += (vX.y * (1.0-s) * b.XRadius);
+			}
+		}
+		if( b.YRadius > 0.0 ){
+			let s = Math.abs((CVector2.Dot(vInterval,vY) / b.YRadius));
+			if( s > 1.0 ){
+				v.x += (vY.x * (1.0-s) * b.YRadius);
+				v.y += (vY.y * (1.0-s) * b.YRadius);
+			}
+		}
+
+		// 球の中心座標から回転ボックスの最短距離が球の半径より短ければ当たっている
+		let len = CVector2.Length( v );
+		if( c.Radius >= len ){
+			return true;
+		}
+
+		return false;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 線とOBB
+	static Detect_LINE_BOX( l, b ){
+		let m = new CMatrix();
+		CMatrix.RotationZ( m, b.Rot.z );
+		let NAe1 = new CVector2( m._11, m._12 );
+		let Ae1 = new CVector2(NAe1.x*b.XRadius, NAe1.y*b.XRadius);
+		let NAe2 = new CVector2( m._21, m._22 );
+		let Ae2 = new CVector2(NAe2.x*b.YRadius, NAe2.y*b.YRadius);
+		
+		CMatrix.RotationZ( m, l.Rot.z );
+		let NBe1 = new CVector2( m._11, m._12 );
+		let Be1 = new CVector2(NBe1.x*(l.Length*0.5), NBe1.y*(l.Length*0.5));
+		let NBe2 = new CVector2( m._21, m._22 );
+		let Be2 = new CVector2( 0, 0 );
+		let lPos = new CVector2( ((l.ePos.x-l.Pos.x)*0.5), ((l.ePos.y-l.Pos.y)*0.5) );
+		lPos.x += l.Pos.x;
+		lPos.y += l.Pos.y;
+		let Interval = new CVector2( (b.Pos.x-lPos.x), (b.Pos.y-lPos.y) );
+		
+		// 分離軸 : Ae1
+		let rA = CVector2.Length( Ae1 );
+		let rB = Collision._LenSegOnSeparateAxis( NAe1, Be1, Be2 );
+		let L = Math.abs( CVector2.Dot(Interval, NAe1) );
+		if( L > (rA + rB) ){
+			return false; // 衝突していない
+		}
+		
+		// 分離軸 : Ae2
+		rA = CVector2.Length( Ae2 );
+		rB = Collision._LenSegOnSeparateAxis( NAe2, Be1, Be2 );
+		L = Math.abs( CVector2.Dot(Interval, NAe2) );
+		if( L > (rA + rB) ){
+			return false;
+		}
+		
+		// 分離軸 : Be1
+		rA = Collision._LenSegOnSeparateAxis( NBe1, Ae1, Ae2 );
+		rB = CVector2.Length( Be1 );
+		L = Math.abs( CVector2.Dot(Interval, NBe1) );
+		if( L > (rA + rB) ){
+			return false;
+		}
+		
+		// 分離軸 : Be2
+		rA = Collision._LenSegOnSeparateAxis( NBe2, Ae1, Ae2 );
+		rB = CVector2.Length( Be2 );
+		L = Math.abs( CVector2.Dot(Interval, NBe2) );
+		if( L > (rA + rB) ){
+			return false;
+		}
+		
+		// 分離平面が存在しないので「衝突している」
+		return true;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 円とAABB
+	static Detect_CIRCLE_FBOX( c, fb ){
+/*
+		let len = 0.0;
+		let tmp0 = c.Pos.x;
+		let tmp1 = (fb.Pos.x-fb.XRadius);
+		if( tmp0 < tmp1 ){
+			len += (tmp0 - tmp1) * (tmp0 - tmp1);
+		}
+		tmp1 = (fb.Pos.x+fb.XRadius);
+		if( tmp0 > tmp1 ){
+			len += (tmp0 - tmp1) * (tmp0 - tmp1);
+		}
+		tmp0 = c.Pos.y;
+		tmp1 = (fb.Pos.y-fb.YRadius);
+		if( tmp0 < tmp1 ){
+			len += (tmp0 - tmp1) * (tmp0 - tmp1);
+		}
+		tmp1 = (fb.Pos.y+fb.YRadius);
+		if( tmp0 > tmp1 ){
+			len += (tmp0 - tmp1) * (tmp0 - tmp1);
+		}
+		len = Math.sqrt( len );
+		
+		if( c.Radius >= len ){
+			return true;
+		}
+		return false;
+*/
+		// 矩形の4辺上で最も円に近い座標(nx, ny)を求める
+		let nx = Math.max((fb.Pos.x-fb.XRadius), Math.min(c.Pos.x, (fb.Pos.x+fb.XRadius)));
+		let ny = Math.max((fb.Pos.y-fb.YRadius), Math.min(c.Pos.y, (fb.Pos.y+fb.YRadius)));
+		let d = new CVector2( (nx - c.Pos.x), (ny - c.Pos.y) );
+		let len = CVector2.Length( d );
+		if( c.Radius >= len ){
+			return true;
+		}
+		return false;
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// 線とAABB
+	static Detect_LINE_FBOX( l, fb ){
+		let tmp = new CBox( fb.Pos.x, fb.Pos.y, fb.XRadius, fb.YRadius, 0.0 );
+		tmp.Pos = fb.Pos;
+		tmp.Body = fb.Body;
+		tmp.Rot = fb.Rot;
+		tmp.Vec = fb.Vec;
+		return Collision.Detect_LINE_BOX( l, tmp );
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// OBBとAABB
+	static Detect_BOX_FBOX( b, fb ){
+		let tmp = new CBox( fb.Pos.x, fb.Pos.y, fb.XRadius, fb.YRadius, 0.0 );
+		tmp.Pos = fb.Pos;
+		tmp.Body = fb.Body;
+		tmp.Rot = fb.Rot;
+		tmp.Vec = fb.Vec;
+		return Collision.Detect_BOX_BOX( b, tmp );
+	}
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// AABBとAABB
+	static Detect_FBOX_FBOX( fb0, fb1 ){
+/*
+		let x0 = (fb0.Pos.x - fb0.XRadius);
+		let x1 = (fb0.Pos.x + fb0.XRadius);
+		let y0 = (fb0.Pos.y - fb0.YRadius);
+		let y1 = (fb0.Pos.y + fb0.YRadius);
+		let tx0 = (fb1.Pos.x - fb1.XRadius);
+		let tx1 = (fb1.Pos.x + fb1.XRadius);
+		let ty0 = (fb1.Pos.y - fb1.YRadius);
+		let ty1 = (fb1.Pos.y + fb1.YRadius);
+		if( (x0 <= tx1) && (x1 >= tx0) && (y0 <= ty1) && (y1 >= ty0) ){
+			return true;
+		}
+		return false;
+*/
+		let x = ((fb0.XRadius + fb1.XRadius) - Math.abs((fb1.Pos.x - fb0.Pos.x)));
+		let y = ((fb0.YRadius + fb1.YRadius) - Math.abs((fb1.Pos.y - fb0.Pos.y)));
+		if( (0.0 <= x) && (0.0 <= y) ){
+			return true;
+		}
+		return false;
+	}
+}
+
+//========================================================================
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+//========================================================================
+
+// 物理クラス（現在は衝突判定とめり込み戻しのみ）
+class Physics{
+	
+	//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	
+	// 衝突検出
+	static Detect( s0, s1 ){
+		switch( s0.Type ){
+		case IShape.CIRCLE:
+			switch( s1.Type ){
+			case IShape.CIRCLE:
+				return Physics.Detect_CIRCLE_CIRCLE( s0, s1 );break;
+			case IShape.LINE:
+				return Physics.Detect_CIRCLE_LINE( s0, s1 );break;
+			case IShape.BOX:
+				return Physics.Detect_CIRCLE_BOX( s0, s1 );break;
+			case IShape.FBOX:
+				return Physics.Detect_CIRCLE_FBOX( s0, s1 );break;
+			}
+			break;
+		case IShape.LINE:
+			switch( s1.Type ){
+			case IShape.CIRCLE:
+				return Physics.Detect_CIRCLE_LINE( s1, s0 );break;
+			case IShape.LINE:
+				return Physics.Detect_LINE_LINE( s0, s1 );break;
+			case IShape.BOX:
+				return Physics.Detect_LINE_BOX( s0, s1 );break;
+			case IShape.FBOX:
+				return Physics.Detect_LINE_FBOX( s0, s1 );break;
+			}
+			break;
+		case IShape.BOX:
+			switch( s1.Type ){
+			case IShape.CIRCLE:
+				return Physics.Detect_CIRCLE_BOX( s1, s0 );break;
+			case IShape.LINE:
+				return Physics.Detect_LINE_BOX( s1, s0 );break;
+			case IShape.BOX:
+				return Physics.Detect_BOX_BOX( s0, s1 );break;
+			case IShape.FBOX:
+				return Physics.Detect_BOX_FBOX( s0, s1 );break;
+			}
+			break;
+		case IShape.FBOX:
+			switch( s1.Type ){
+			case IShape.CIRCLE:
+				return Physics.Detect_CIRCLE_FBOX( s1, s0 );break;
+			case IShape.LINE:
+				return Physics.Detect_LINE_FBOX( s1, s0 );break;
+			case IShape.BOX:
+				return Physics.Detect_BOX_FBOX( s1, s0 );break;
+			case IShape.FBOX:
+				return Physics.Detect_FBOX_FBOX( s0, s1 );break;
 			}
 			break;
 		}

@@ -195,115 +195,115 @@ var game = function(){
 		// 衝突判定
 		this.text = "";
 		// 1と2（円と円）
-		if( true == Collision.Detect( this.c0, this.c1 ) ){
+		if( true == Physics.Detect( this.c0, this.c1 ) ){
 			this.text += "(1&2 Hit)";
 		}
 		// 1と3（円と線）
-		if( true == Collision.Detect( this.c0, this.l0 ) ){
+		if( true == Physics.Detect( this.c0, this.l0 ) ){
 			this.text += "(1&3 Hit)";
 		}
 		// 1と4（円と線）
-		if( true == Collision.Detect( this.c0, this.l1 ) ){
+		if( true == Physics.Detect( this.c0, this.l1 ) ){
 			this.text += "(1&4 Hit)";
 		}
 		// 2と3（円と線）
-		if( true == Collision.Detect( this.c1, this.l0 ) ){
+		if( true == Physics.Detect( this.c1, this.l0 ) ){
 			this.text += "(2&3 Hit)";
 		}
 		// 2と4（円と線）
-		if( true == Collision.Detect( this.c1, this.l1 ) ){
+		if( true == Physics.Detect( this.c1, this.l1 ) ){
 			this.text += "(2&4Hit)";
 		}
 		// 3と4（線と線）
-		if( true == Collision.Detect( this.l0, this.l1 ) ){
+		if( true == Physics.Detect( this.l0, this.l1 ) ){
 			this.text += "(3&4Hit)";
 		}
 		// 1と5（円とOBB）
-		if( true == Collision.Detect( this.c0, this.b0 ) ){
+		if( true == Physics.Detect( this.c0, this.b0 ) ){
 			this.text += "(1&5Hit)";
 		}
 		// 1と6（円とOBB）
-		if( true == Collision.Detect( this.c0, this.b1 ) ){
+		if( true == Physics.Detect( this.c0, this.b1 ) ){
 			this.text += "(1&6Hit)";
 		}
 		// 2と5（円とOBB）
-		if( true == Collision.Detect( this.c1, this.b0 ) ){
+		if( true == Physics.Detect( this.c1, this.b0 ) ){
 			this.text += "(2&5Hit)";
 		}
 		// 2と6（円とOBB）
-		if( true == Collision.Detect( this.c1, this.b1 ) ){
+		if( true == Physics.Detect( this.c1, this.b1 ) ){
 			this.text += "(2&6Hit)";
 		}
 		// 3と5（線とOBB）
-		if( true == Collision.Detect( this.l0, this.b0 ) ){
+		if( true == Physics.Detect( this.l0, this.b0 ) ){
 			this.text += "(3&5Hit)";
 		}
 		// 3と6（線とOBB）
-		if( true == Collision.Detect( this.l0, this.b1 ) ){
+		if( true == Physics.Detect( this.l0, this.b1 ) ){
 			this.text += "(3&6Hit)";
 		}
 		// 4と5（線とOBB）
-		if( true == Collision.Detect( this.l1, this.b0 ) ){
+		if( true == Physics.Detect( this.l1, this.b0 ) ){
 			this.text += "(4&5Hit)";
 		}
 		// 4と6（線とOBB）
-		if( true == Collision.Detect( this.l1, this.b1 ) ){
+		if( true == Physics.Detect( this.l1, this.b1 ) ){
 			this.text += "(4&6Hit)";
 		}
 		// 5と6（OBBとOBB）
-		if( true == Collision.Detect( this.b0, this.b1 ) ){
+		if( true == Physics.Detect( this.b0, this.b1 ) ){
 			this.text += "(5&6Hit)";
 		}
 		// 1と7（円とAABB）
-		if( true == Collision.Detect( this.c0, this.fb0 ) ){
+		if( true == Physics.Detect( this.c0, this.fb0 ) ){
 			this.text += "(1&7 Hit)";
 		}
 		// 1と8（円とAABB）
-		if( true == Collision.Detect( this.c0, this.fb1) ){
+		if( true == Physics.Detect( this.c0, this.fb1) ){
 			this.text += "(1&8 Hit)";
 		}
 		// 2と7（円とAABB）
-		if( true == Collision.Detect( this.c1, this.fb0 ) ){
+		if( true == Physics.Detect( this.c1, this.fb0 ) ){
 			this.text += "(2&7 Hit)";
 		}
 		// 2と8（円とAABB）
-		if( true == Collision.Detect( this.c1, this.fb1) ){
+		if( true == Physics.Detect( this.c1, this.fb1) ){
 			this.text += "(2&8 Hit)";
 		}
 		// 3と7（線とAABB）
-		if( true == Collision.Detect( this.l0, this.fb0 ) ){
+		if( true == Physics.Detect( this.l0, this.fb0 ) ){
 			this.text += "(3&7Hit)";
 		}
 		// 3と8（線とAABB）
-		if( true == Collision.Detect( this.l0, this.fb1 ) ){
+		if( true == Physics.Detect( this.l0, this.fb1 ) ){
 			this.text += "(3&8Hit)";
 		}
 		// 4と7（線とAABB）
-		if( true == Collision.Detect( this.l1, this.fb0 ) ){
+		if( true == Physics.Detect( this.l1, this.fb0 ) ){
 			this.text += "(4&7Hit)";
 		}
 		// 4と8（線とAABB）
-		if( true == Collision.Detect( this.l1, this.fb1 ) ){
+		if( true == Physics.Detect( this.l1, this.fb1 ) ){
 			this.text += "(4&8Hit)";
 		}
 		// 5と7（OBBとAABB）
-		if( true == Collision.Detect( this.b0, this.fb0 ) ){
+		if( true == Physics.Detect( this.b0, this.fb0 ) ){
 			this.text += "(5&7Hit)";
 		}
 		// 5と8（OBBとAABB）
-		if( true == Collision.Detect( this.b0, this.fb1 ) ){
+		if( true == Physics.Detect( this.b0, this.fb1 ) ){
 			this.text += "(5&8Hit)";
 		}
 		// 6と7（OBBとAABB）
-		if( true == Collision.Detect( this.b1, this.fb0 ) ){
+		if( true == Physics.Detect( this.b1, this.fb0 ) ){
 			this.text += "(6&7Hit)";
 		}
 		// 6と8（OBBとAABB）
-		if( true == Collision.Detect( this.b1, this.fb1 ) ){
+		if( true == Physics.Detect( this.b1, this.fb1 ) ){
 			this.text += "(6&8Hit)";
 		}
 		// 7と8（AABBとAABB）
-		if( true == Collision.Detect( this.fb0, this.fb1 ) ){
+		if( true == Physics.Detect( this.fb0, this.fb1 ) ){
 			this.text += "(7&8Hit)";
 		}
 		

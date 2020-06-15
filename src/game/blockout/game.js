@@ -1,17 +1,20 @@
-// グローバル変数
-var CANVAS_X = 640;
-var CANVAS_Y = 480;
-
-// ディグリー角からラジアン角に変換
-function DegToRad( d ){
-	return ( d * ( Math.PI / 180 ) );
+// ゲームクラス
+class CGame{
+	constructor( canvas, context ){
+		this.canvas = canvas;
+		this.ctx = context;
+		this.gamemode = new title();
+	}
+	
+	Run(){
+		this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+		
+		this.gamemode.FrameRender( this.ctx );
+		this.gamemode = this.gamemode.FrameMove();
+	}
 }
 
-//=========================================================
-// タイトル画面
-//---------------------------------------------------------
-var title = function(){
-
+let title = function(){
 	this.FrameMove = function(){
 		if( PUSH == Input.Z ){
 			return new game();
@@ -19,20 +22,21 @@ var title = function(){
 		return this;
 	}
 
-	this.FrameRender = function( context ){
+	this.FrameRender = function( ctx ){
 
-		context.strokeStyle = "white";
-		context.fillStyle = "white";
+		ctx.strokeStyle = "white";
+		ctx.fillStyle = "white";
 		
-		context.font = "15px 'ＭＳ Ｐゴシック'";
-		context.fillText( "PUSH Z KEY", 280, 240 );
+		ctx.font = "15px 'ＭＳ Ｐゴシック'";
+		ctx.fillText( "PUSH Z KEY", 280, 240 );
 	}
 }
 
-//=========================================================
-// ゲーム画面
-//---------------------------------------------------------
-var game = function(){
+// グローバル変数
+let CANVAS_X = 640;
+let CANVAS_Y = 480;
+
+let game = function(){
 	//-----------------------------------------------------
 	// 変数宣言
 	
@@ -256,7 +260,7 @@ var game = function(){
 			}
 			// 加速状態なら
 			if( true == this.flag ){
-				this.y = 450.0 - (Math.sin( DegToRad( this.s ) ) * 5.0);
+				this.y = 450.0 - (Math.sin( CMath.DegToRad( this.s ) ) * 5.0);
 				this.s += 30;
 				if( 180 <= this.s ){
 					this.s = 0;
@@ -316,69 +320,19 @@ var game = function(){
 	}
 
 	// ゲームクラス描画関数
-	this.FrameRender = function( context ){
+	this.FrameRender = function( ctx ){
 	
 		// ボール表示
-		this.ball.Draw( context );
+		this.ball.Draw( ctx );
 		// ブロック表示
 		for( var y = 0 ; y < this.blockNumY ; y++ ){
 			for( var x = 0 ; x < this.blockNumX ; x++ ){
-				this.blocks[y][x].Draw( context );
+				this.blocks[y][x].Draw( ctx );
 			}
 		}
 		// バー表示
-		this.bar.Draw( context );
+		this.bar.Draw( ctx );
 	}
 }
 
-// ページスクロール抑制
-var keydownfunc = function( event ){
-	var code = event.keyCode;
-	switch( code ){
-	case 32:	// Space
-	case 37:	// ←
-	case 38:	// ↑
-	case 39:	// →
-	case 40:	// ↓
-		event.preventDefault();
-	}
-}
 
-//=========================================================
-// 所謂メイン関数
-//---------------------------------------------------------
-window.onload = function(){
-	
-	// ページスクロール抑制
-	window.addEventListener( 'keydown', keydownfunc, true );
-	
-    var canvas = document.getElementById("myCanvas");
-    if (!canvas.getContext) return;
-    var context = canvas.getContext("2d");
-
-    var gamemode = new title();
-
-
-	canvas.onmousedown = function(){
-		Input.Mouse.button = true;
-	}
-	canvas.onmouseup = function(){
-		Input.Mouse.button = false;
-	}
-	
-	canvas.addEventListener( "mousemove", function(e){
-		let rect = e.target.getBoundingClientRect();
-		Input.Mouse.x = e.clientX - rect.left
-		Input.Mouse.y = e.clientY - rect.top
-	});
-
-	// メインループ
-	setInterval( function(){
-		context.clearRect( 0, 0, CANVAS_X, CANVAS_Y );
-
-		Input.Update();
-		gamemode = gamemode.FrameMove();
-		gamemode.FrameRender( context );
-
-		}, 16.666666 );	// 1000 / 60 = 16.66666 = 60FPS
-}

@@ -162,6 +162,22 @@ class CInput{
 					null,null,null,null,
 					null,null,null,null,
 					null,null,null,null];
+		#A = null;
+		#B = null;
+		#X = null;
+		#Y = null;
+		#L = null;
+		#R = null;
+		#LT = null;
+		#RT = null;
+		#Back = null;
+		#Start = null;
+		#LS = null;
+		#RS = null;
+		#Up = null;
+		#Down = null;
+		#Left = null;
+		#Right = null;
 		#LX = null;
 		#LY = null;
 		#RX = null;
@@ -169,6 +185,42 @@ class CInput{
 		constructor(){
 		}
 		get Button(){ return this.#Button; }
+		get A(){ if( null == this.#A ){ return 0; }else{ return this.#A; } }
+		set A( val ){ this.#A = val; }
+		get B(){ if( null == this.#B ){ return 0; }else{ return this.#B; } }
+		set B( val ){ this.#B = val; }
+		get X(){ if( null == this.#X ){ return 0; }else{ return this.#X; } }
+		set X( val ){ this.#X = val; }
+		get Y(){ if( null == this.#Y ){ return 0; }else{ return this.#Y; } }
+		set Y( val ){ this.#Y = val; }
+		
+		get L(){ if( null == this.#L ){ return 0; }else{ return this.#L; } }
+		set L( val ){ this.#L = val; }
+		get R(){ if( null == this.#R ){ return 0; }else{ return this.#R; } }
+		set R( val ){ this.#R = val; }
+		get LT(){ if( null == this.#LT ){ return 0; }else{ return this.#LT; } }
+		set LT( val ){ this.#LT = val; }
+		get RT(){ if( null == this.#RT ){ return 0; }else{ return this.#RT; } }
+		set RT( val ){ this.#RT = val; }
+		
+		get Back(){ if( null == this.#Back ){ return 0; }else{ return this.#Back; } }
+		set Back( val ){ this.#Back = val; }
+		get Start(){ if( null == this.#Start ){ return 0; }else{ return this.#Start; } }
+		set Start( val ){ this.#Start = val; }
+		get LS(){ if( null == this.#LS ){ return 0; }else{ return this.#LS; } }
+		set LS( val ){ this.#LS = val; }
+		get RS(){ if( null == this.#RS ){ return 0; }else{ return this.#RS; } }
+		set RS( val ){ this.#RS = val; }
+		
+		get Up(){ if( null == this.#Up ){ return 0; }else{ return this.#Up; } }
+		set Up( val ){ this.#Up = val; }
+		get Down(){ if( null == this.#Down ){ return 0; }else{ return this.#Down; } }
+		set Down( val ){ this.#Down = val; }
+		get Left(){ if( null == this.#Left ){ return 0; }else{ return this.#Left; } }
+		set Left( val ){ this.#Left = val; }
+		get Right(){ if( null == this.#Right ){ return 0; }else{ return this.#Right; } }
+		set Right( val ){ this.#Right = val; }
+		
 		get LX(){ if( null == this.#LX ){ return 0; }else{ return this.#LX; } }
 		set LX( val ){ this.#LX = val; }
 		get LY(){ if( null == this.#LY ){ return 0; }else{ return this.#LY; } }
@@ -328,6 +380,23 @@ class CInput{
 					}
 				}
 			}
+			this.#Pad.A		= this.#Pad.Button[0];
+			this.#Pad.B		= this.#Pad.Button[1];
+			this.#Pad.X		= this.#Pad.Button[2];
+			this.#Pad.Y		= this.#Pad.Button[3];
+			this.#Pad.L		= this.#Pad.Button[4];
+			this.#Pad.R		= this.#Pad.Button[5];
+			this.#Pad.LT	= this.#Pad.Button[6];
+			this.#Pad.RT	= this.#Pad.Button[7];
+			this.#Pad.Back	= this.#Pad.Button[8];
+			this.#Pad.Start	= this.#Pad.Button[9];
+			this.#Pad.LS	= this.#Pad.Button[10];
+			this.#Pad.RS	= this.#Pad.Button[11];
+			this.#Pad.Up	= this.#Pad.Button[12];
+			this.#Pad.Down	= this.#Pad.Button[13];
+			this.#Pad.Left	= this.#Pad.Button[14];
+			this.#Pad.Right	= this.#Pad.Button[15];
+			
 			this.#Pad.LX = pad.axes[0];
 			this.#Pad.LY = pad.axes[1];
 			this.#Pad.RX = pad.axes[2];

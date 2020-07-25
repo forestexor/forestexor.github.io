@@ -5,7 +5,7 @@
 	<link rel="icon" type="image/x-icon" href="favicon.ico">
 	<link rel="icon" href="favicon.ico">
 	<link rel="apple-touch-icon" href="favicon.png" sizes="152x152">
-	<title>forestexor's HP(仮)</title>
+	<title>ForestEXOR Games</title>
 	<style>
 		html{
 			height : 100%;
@@ -16,7 +16,8 @@
 			margin : 0px;
 			padding : 0px;
 			text-align : center;
-			background : #f9f9f9;
+			background: #f9f9f9 url('src/img/background.jpg') no-repeat center top;
+			background-size:contain;
 		}
 		
 		#wrapper{
@@ -228,6 +229,17 @@
 		}
 		
 	</style>
+	
+	<!-- _/_/_/_/ 広告用 _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/-->
+	<script>
+		window.onload= function(){
+			if( -1 != location.href.lastIndexOf( "#info" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "info.html";
+			}
+		}
+	</script>
+	<!-- /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
 </head>
 
 <body>

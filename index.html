@@ -231,19 +231,16 @@
 	</style>
 	
 	<!-- _/_/_/_/ 広告用 _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/-->
-	<!--<script type="text/javascript">
-		window.onload= function(){
-			if( -1 != location.href.lastIndexOf( "#info" ) ){
-				let frame = document.getElementById("frame");
-				frame.src = "info.html";
-			}
-		}
-	</script>-->
 	<script type="text/javascript">
 		window.addEventListener( "DOMContentLoaded", function(){
 			if( -1 != location.href.lastIndexOf( "#info" ) ){
 				let frame = document.getElementById("frame");
 				frame.src = "info.html";
+			}
+			
+			if( -1 != location.href.lastIndexOf( "#calendar" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "calendar.html";
 			}
 		});
 	</script>

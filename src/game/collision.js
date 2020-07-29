@@ -907,8 +907,8 @@ class Physics{
 	//-------------------------------------------------------------------
 	
 	static _PenetrationDepth( o1, o2, axis, outShouldFlip ){
-		let i1 = Collision._GetInterval( o1, Collision._Normalized(axis) );
-		let i2 = Collision._GetInterval( o2, Collision._Normalized(axis) );
+		let i1 = Physics._GetInterval( o1, Physics._Normalized(axis) );
+		let i2 = Physics._GetInterval( o2, Physics._Normalized(axis) );
 		
 		if (!((i2.min <= i1.max) && (i1.min <= i2.max))) {
 			return 0.0; // No penerattion
@@ -1001,7 +1001,7 @@ class Physics{
 		let shouldFlip = new COBB_Bool();
 		let depth = Number.MAX_SAFE_INTEGER;
 		for( let i = 0 ; i < test.length ; i++ ){
-			let dep = Collision._PenetrationDepth( b0, b1, test[i], shouldFlip );
+			let dep = Physics._PenetrationDepth( b0, b1, test[i], shouldFlip );
 			if( dep <= 0.0 ){
 				return false;
 			}else if( dep < depth ){
@@ -1019,7 +1019,7 @@ class Physics{
 
 		if( (IShape.GHOST != b0.Body) && (IShape.GHOST != b1.Body) ){
 			depth += 1.0;
-			let axis = Collision._Normalized( hitNormal );
+			let axis = Physics._Normalized( hitNormal );
 			let v0 = CVector2.Length( b0.Vec );
 			let v1 = CVector2.Length( b1.Vec );
 			

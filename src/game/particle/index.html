@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Particle</title>
+	<script type="text/javascript" src="main.js"></script>
+	<style type="text/css">
+		body{
+			text-align: center;
+		}
+		
+		input{
+			width: 50px;
+		}
+	</style>
+</head>
+<body>
+	<table style="display:inline-block;">
+	<tr>
+	<td style="vertical-align:top;">
+		<!-- キャンバス -->
+		<canvas id="myCanvas" width="640" height="480" style="background:Black;"></canvas>
+	</td>
+	<td>
+		<table>
+			<tr>
+				<td align="left">発生数</td><td>:</td>
+				<td>
+					<input type="number" max="2000" min="1" value="15" id="NumToRelease"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left">発生間隔</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="10" min="0.001" value="0.05" id="ReleaseInterval"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left">寿命</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="10" min="0.001" value="4" id="LifeCycle"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left">サイズ</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="100" min="0.01" value="5" id="Size"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left">サイズ変化値</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="100" min="-100" value="0" id="SizeChange"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left">ブレ</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="100" min="0.001" value="0.7" id="VelocityVar"/>
+				</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td align="left" colspan="3">色</td>
+				<td align="left" colspan="3">色変化値</td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;R</td><td>:</td>
+				<td>
+					<input type="number" max="255" min="0" value="10" id="ColorR"/>
+				</td>
+				<td>&nbsp;R</td><td>:</td>
+				<td>
+					<input type="number" max="255" min="-255" value="100" id="ColorChangeR"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;G</td><td>:</td>
+				<td>
+					<input type="number" max="255" min="0" value="100" id="ColorG"/>
+				</td>
+				<td>&nbsp;G</td><td>:</td>
+				<td>
+					<input type="number" max="255" min="-255" value="150" id="ColorChangeG"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;B</td><td>:</td>
+				<td>
+					<input type="number" max="255" min="0" value="200" id="ColorB"/>
+				</td>
+				<td>&nbsp;B</td><td>:</td>
+				<td>
+					<input type="number" max="255" min="-255" value="200" id="ColorChangeB"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;A</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="1" min="0" value="1" id="ColorA"/>
+				</td>
+				<td>&nbsp;A</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="1" min="-1" value="-0.4" id="ColorChangeA"/>
+				</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td align="left" colspan="6">位置</td>
+			</tr>
+			<tr>
+				<td>&nbsp;X</td><td>:</td>
+				<td>
+					<input type="number" max="630" min="10" value="320" id="PositionX"/>
+				</td>
+				<td>&nbsp;Y</td><td>:</td>
+				<td>
+					<input type="number" max="470" min="10" value="300" id="PositionY"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" colspan="6">移動力</td>
+			</tr>
+			<tr>
+				<td>&nbsp;X</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="30" min="-30" value="0" id="VelocityX"/>
+				</td>
+				<td>&nbsp;Y</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="30" min="-30" value="-4" id="VelocityY"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td align="left" colspan="6">重力</td>
+			</tr>
+			<tr>
+				<td>&nbsp;X</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="30" min="-30" value="0" id="GravityX"/>
+				</td>
+				<td>&nbsp;Y</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="30" min="-30" value="2.5" id="GravityY"/>
+				</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td align="left">空気抵抗</td>
+				<td align="left">
+					<input type="checkbox" id="AirResistence"/>
+				</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td align="left" colspan="6">風力</td>
+			</tr>
+			<tr>
+				<td>&nbsp;X</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="30" min="-30" value="0" id="WindX"/>
+				</td>
+				<td>&nbsp;Y</td><td>:</td>
+				<td>
+					<input type="number" step="0.001" max="30" min="-30" value="0" id="WindY"/>
+				</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td align="left">合成方法</td>
+				<td align="left">
+					<input type="checkbox" checked id="Additive"/>
+				</td>
+			</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+</body>
+</html>

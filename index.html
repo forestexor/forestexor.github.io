@@ -79,7 +79,7 @@
 			text-align : center;
 			display : inline-block;
 			padding : 0px;
-			width : 100px;
+			width : 90px;
 		}
 		#menu > li:hover{
 			background : linear-gradient( #dddddd, #555555 );
@@ -114,7 +114,7 @@
 
 		li#photo ul.sub_menu{
 			position : absolute;
-			width:100px;
+			width:90px;
 			margin : 0px;
 			background : #00000080;
 			-webkit-transition : all .2s ease;
@@ -131,12 +131,14 @@
 		}
 		li#photo ul.sub_menu{
 			position : absolute;
-			top : 19px;
+//			top : 19px;
+			top : 80%;
 			-webkit-transition : all .2s ease;
 			transition : all .2s ease;
 		}
 		li#photo:hover ul.sub_menu{
-			top : 24px;
+//			top : 24px;
+			top : 100%;
 			visibility : visible;
 			opacity : 1;
 		}
@@ -150,26 +152,28 @@
 			box-sizing: border-box;
 			width: 100%;
 			background : #00000080;
-			top: 19px;
+//			top: 19px;
+			top: 80%;
 			-webkit-transition: all .2s ease;
 			transition: all .2s ease;
 		}
 		
 		li#game:hover ul.sub_menu{
-			top: 24px;
+//			top: 24px;
+			top: 100%;
 			visibility: visible;
 			opacity: 1;
 		}
 		
 		li#game ul.sub_menu > li {
 			float: left;
-			width: 24%;
+			width: 25%;
 			border: none;
-			padding: 5px 0px;
+			padding: 3px 0px;
 		}
 		
 		li#game ul.sub_menu > li:nth-child(4n+2) {
-			margin: 0 2%;
+//			margin: 0 2%;
 		}
 		
 		
@@ -180,16 +184,18 @@
 		
 		li#link ul.sub_menu{
 			position: absolute;
-			width: 100px;
+			width: 90px;
 			margin: 0px;
 			background : #00000080;
-			top: 19px;
+//			top: 19px;
+			top: 80%;
 			-webkit-transition: all .2s ease;
 			transition: all .2s ease;
 		}
 
 		li#link:hover ul.sub_menu{
-			top: 24px;
+//			top: 24px;
+			top: 100%;
 			visibility: visible;
 			opacity: 1;
 		}
@@ -211,11 +217,10 @@
 			position: absolute;
 			top: 0px;
 			left: 100%;
-//			width: 100%;
-			width: 150px;
+			width: 130px;
 			background: #00000040;
-			-webkit-transition: all .2s ease;
-			transition: all .2s ease;
+			-webkit-transition: all .1s ease;
+			transition: all .1s ease;
 		}
 		
 		li#link ul.sub_menu li ul.link_menu a{
@@ -240,7 +245,7 @@
 		
 	</style>
 	
-	<!-- _/_/_/_/ 広告用 _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/-->
+	<!-- _/_/_/_/ URLで表示切り替え _/_/_/_/_/_/_/_/_/_/_/_/ -->
 	<script type="text/javascript">
 		window.addEventListener( "DOMContentLoaded", function(){
 			if( -1 != location.href.lastIndexOf( "#info" ) ){
@@ -252,9 +257,20 @@
 				let frame = document.getElementById("frame");
 				frame.src = "calendar.html";
 			}
+			
+			if( -1 != location.href.lastIndexOf( "#calendar" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "calendar.html";
+			}
+			
+			// ゲーム
+			if( -1 != location.href.lastIndexOf( "#particle" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "src/game/particle/index.html";
+			}
 		});
 	</script>
-	<!-- /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
+	<!-- /_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
 </head>
 
 <body>
@@ -270,19 +286,20 @@
 			
 			<!-- Game -->
 			<li id="game">
-				<a href="#">Game</a>
+				<a href="#" style="pointer-events:none;">Game</a>
 				<ul class="sub_menu">
 					<li><a href="src/game/blockout/blockout.html" target="frame">ブロック崩し</a></li>
 					<li><a href="src/game/15puzzle/15puzzle.html" target="frame">15パズル</a></li>
 					<li><a href="src/game/terits/terits.html" target="frame">テリトス</a></li>
 					<li><a href="src/game/stg/stg.html" target="frame">STG</a></li>
-					<li><a href="src/game/test/test0.html" target="frame">当たり判定テスト</a></li>
+					<li><a href="src/game/test/test0.html" target="frame">テスト(当たり判定)</a></li>
+					<li><a href="src/game/particle/index.html" target="frame">テスト(Particle)</a></li>
 				</ul>
 			</li>
 			
 			<!-- Photo -->
 			<li id="photo">
-				<a href="#">Photo</a>
+				<a href="#" style="pointer-events:none;">Photo</a>
 				<ul class="sub_menu">
 					<li><a href="src/photo/dog.html" target="frame">Dog</a></li>
 					<li><s>Other</s></li>
@@ -295,19 +312,22 @@
 			<!-- Twitter -->
 			<li><a href="https://twitter.com/Forestexor" target="_blank">Twitter</a></li>
 			
+			<!-- Twitter -->
+			<li><a href="https://www.instagram.com/forestexor/" target="_blank">Instagram</a></li>
+			
 			<!-- Link -->
 			<li id="link">
-				<a href="#">Link</a>
+				<a href="#" style="pointer-events:none;">Link</a>
 				<ul class="sub_menu">
 					<li>
-						<a href="#">Friend</a>
+						<a href="#" style="pointer-events:none;">Friend</a>
 						<ul class="link_menu">
 							<li><a href="https://coposuke.github.io/" target="_blank">コポホーム</a></li>
 							<li><a href="https://coposuke.hateblo.jp/" target="_blank">コポうぇぶろぐ</a></li>
 						</ul>
 					</li>
 					<li>
-						<a href="#">Oher</a>
+						<a href="#" style="pointer-events:none;">Oher</a>
 						<ul class="link_menu">
 							<li><a href="https://www.google.co.jp/" target="_blank">Google</a></li>
 							<li><a href="https://www.yahoo.co.jp/" target="_blank">Yahoo! JAPAN</a></li>

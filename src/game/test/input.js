@@ -10,28 +10,78 @@ const PULL = 1 << 4;
 //	HOLD=001100=12
 //	PULL=010000=16
 
-// 入力機器クラス
+
+//_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+// window.onload内に追加
+/******************************************************************
+
+// キーが押された時
+document.onkeydown = (e) => {
+	Input.onKeyDown( e );
+}
+
+// キーが離された時
+document.onkeyup = (e) => {
+	Input.onKeyUp( e );
+}
+
+// ゲームパッド接続時
+window.addEventListener( "gamepadconnected", (e) => {
+//	e.gamepad.index;	// パッド番号、大抵1個なので0番を使う
+//	e.gamepad.id;		// 種類？ Xbox 360 Controller (XInput STANDARD GAMEPAD)
+//	e.gamepad.mapping;	// 不明(standardが入ってた)
+
+	Input.Pad.Initialize();
+});
+// ゲームパッド切断時
+window.addEventListener( "gamepaddisconnected", (e) => {
+	Input.Pad.Finalize();
+});
+
+//-----------------------------------------------------------------
+// キャンバス取得後
+
+// マウス左クリック取得
+canvas.onmousedown = function(){
+	Input.Mouse.L_Button = true;
+}
+canvas.onmouseup = () => {
+	Input.Mouse.L_Button = false;
+}
+// マウス座標取得
+canvas.addEventListener( "mousemove", (e) => {
+	let rect = e.target.getBoundingClientRect();
+	Input.Mouse.x = e.clientX - rect.left;
+	Input.Mouse.y = e.clientY - rect.top;
+});
+
+//-----------------------------------------------------------------
+// ループ内で使用
+Input.Update();
+
+******************************************************************/
+
+
 class CInput{
 	// キーボード
-	#Key = class CKey{
-		constructor( code ){
-			this.code = code;
+	#KEY = class CKey{
+		constructor(){
+			this.code = false;
 			this.state = FREE;
 		}
 	}
 	
-	#codes = new Array();
-	#keys = new Array();
+	#Keys = new Map();
 	
-	#Enter	= new this.#Key( 13 );
-	#Shift	= new this.#Key( 16 );
-	#Ctrl	= new this.#Key( 17 );
-	#Alt	= new this.#Key( 18 );
-	#Space	= new this.#Key( 32 );
-	#Left	= new this.#Key( 37 );
-	#Up		= new this.#Key( 38 );
-	#Right	= new this.#Key( 39 );
-	#Down	= new this.#Key( 40 );
+	#Enter	= new this.#KEY();
+	#Shift	= new this.#KEY();
+	#Ctrl	= new this.#KEY();
+	#Alt	= new this.#KEY();
+	#Space	= new this.#KEY();
+	#Left	= new this.#KEY();
+	#Up		= new this.#KEY();
+	#Right	= new this.#KEY();
+	#Down	= new this.#KEY();
 	get Enter()	{ return this.#Enter.state;	}
 	get Shift()	{ return this.#Shift.state;	}
 	get Ctrl()	{ return this.#Ctrl.state;	}
@@ -42,16 +92,16 @@ class CInput{
 	get Right()	{ return this.#Right.state;	}
 	get Down()	{ return this.#Down.state;	}
 	
-	#_0 = new this.#Key( 48 );
-	#_1 = new this.#Key( 49 );
-	#_2 = new this.#Key( 50 );
-	#_3 = new this.#Key( 51 );
-	#_4 = new this.#Key( 52 );
-	#_5 = new this.#Key( 53 );
-	#_6 = new this.#Key( 54 );
-	#_7 = new this.#Key( 55 );
-	#_8 = new this.#Key( 56 );
-	#_9 = new this.#Key( 57 );
+	#_0 = new this.#KEY();
+	#_1 = new this.#KEY();
+	#_2 = new this.#KEY();
+	#_3 = new this.#KEY();
+	#_4 = new this.#KEY();
+	#_5 = new this.#KEY();
+	#_6 = new this.#KEY();
+	#_7 = new this.#KEY();
+	#_8 = new this.#KEY();
+	#_9 = new this.#KEY();
 	get _0(){ return this.#_0.state; }
 	get _1(){ return this.#_1.state; }
 	get _2(){ return this.#_2.state; }
@@ -62,33 +112,33 @@ class CInput{
 	get _7(){ return this.#_7.state; }
 	get _8(){ return this.#_8.state; }
 	get _9(){ return this.#_9.state; }
-	    
-	#A = new this.#Key( 65 );
-	#B = new this.#Key( 66 );
-	#C = new this.#Key( 67 );
-	#D = new this.#Key( 68 );
-	#E = new this.#Key( 69 );
-	#F = new this.#Key( 70 );
-	#G = new this.#Key( 71 );
-	#H = new this.#Key( 72 );
-	#I = new this.#Key( 73 );
-	#J = new this.#Key( 74 );
-	#K = new this.#Key( 75 );
-	#L = new this.#Key( 76 );
-	#M = new this.#Key( 77 );
-	#N = new this.#Key( 78 );
-	#O = new this.#Key( 79 );
-	#P = new this.#Key( 80 );
-	#Q = new this.#Key( 81 );
-	#R = new this.#Key( 82 );
-	#S = new this.#Key( 83 );
-	#T = new this.#Key( 84 );
-	#U = new this.#Key( 85 );
-	#V = new this.#Key( 86 );
-	#W = new this.#Key( 87 );
-	#X = new this.#Key( 88 );
-	#Y = new this.#Key( 89 );
-	#Z = new this.#Key( 90 );
+	
+	#A = new this.#KEY();
+	#B = new this.#KEY();
+	#C = new this.#KEY();
+	#D = new this.#KEY();
+	#E = new this.#KEY();
+	#F = new this.#KEY();
+	#G = new this.#KEY();
+	#H = new this.#KEY();
+	#I = new this.#KEY();
+	#J = new this.#KEY();
+	#K = new this.#KEY();
+	#L = new this.#KEY();
+	#M = new this.#KEY();
+	#N = new this.#KEY();
+	#O = new this.#KEY();
+	#P = new this.#KEY();
+	#Q = new this.#KEY();
+	#R = new this.#KEY();
+	#S = new this.#KEY();
+	#T = new this.#KEY();
+	#U = new this.#KEY();
+	#V = new this.#KEY();
+	#W = new this.#KEY();
+	#X = new this.#KEY();
+	#Y = new this.#KEY();
+	#Z = new this.#KEY();
 	get A(){ return this.#A.state; }
 	get B(){ return this.#B.state; }
 	get C(){ return this.#C.state; }
@@ -116,16 +166,16 @@ class CInput{
 	get Y(){ return this.#Y.state; }
 	get Z(){ return this.#Z.state; }
 	
-	#Ten0 = new this.#Key( 96 );
-	#Ten1 = new this.#Key( 97 );
-	#Ten2 = new this.#Key( 98 );
-	#Ten3 = new this.#Key( 99 );
-	#Ten4 = new this.#Key( 100 );
-	#Ten5 = new this.#Key( 101 );
-	#Ten6 = new this.#Key( 102 );
-	#Ten7 = new this.#Key( 103 );
-	#Ten8 = new this.#Key( 104 );
-	#Ten9 = new this.#Key( 105 );
+	#Ten0 = new this.#KEY();
+	#Ten1 = new this.#KEY();
+	#Ten2 = new this.#KEY();
+	#Ten3 = new this.#KEY();
+	#Ten4 = new this.#KEY();
+	#Ten5 = new this.#KEY();
+	#Ten6 = new this.#KEY();
+	#Ten7 = new this.#KEY();
+	#Ten8 = new this.#KEY();
+	#Ten9 = new this.#KEY();
 	get Ten0(){ return this.#Ten0.state; };
 	get Ten1(){ return this.#Ten1.state; };
 	get Ten2(){ return this.#Ten2.state; };
@@ -140,8 +190,8 @@ class CInput{
 	// マウス
 	#MOUSE = class CMouse{
 		constructor(){
-			this.button = false;
-			this.State = FREE;
+			this.L_Button = false;
+			this.L = FREE;
 			this.x = 0;
 			this.y = 0;
 		}
@@ -150,13 +200,6 @@ class CInput{
 	get Mouse(){ return this.#Mouse; }
 	
 	// ゲームパッド
-/*
-	XBOX360
-	 0:A    /  1:B     /  2:X  /  3:Y
-	 4:L    /  5:R     /  6:LT /  7:RT
-	 8:BACK /  9:START / 10:LS / 11:RS
-	12:↑   / 13:↓    / 14:← / 15:→
-*/	
 	#GamePad = class CGamePad{
 		#Button = [ null,null,null,null,
 					null,null,null,null,
@@ -248,113 +291,118 @@ class CInput{
 	#Pad = new this.#GamePad();
 	get Pad(){ return this.#Pad; }
 	
+	// コンストラクタ
 	constructor(){
-		this.#keys.push( this.#Enter );
-		this.#keys.push( this.#Shift );
-		this.#keys.push( this.#Ctrl );
-		this.#keys.push( this.#Alt );
-		this.#keys.push( this.#Space );
-		this.#keys.push( this.#Left );
-		this.#keys.push( this.#Up );
-		this.#keys.push( this.#Right );
-		this.#keys.push( this.#Down );
+		this.#Keys.set( 13, this.#Enter	);
+		this.#Keys.set( 16, this.#Shift	);
+		this.#Keys.set( 17, this.#Ctrl	);
+		this.#Keys.set( 18, this.#Alt	);
+		this.#Keys.set( 32, this.#Space	);
+		this.#Keys.set( 37, this.#Left	);
+		this.#Keys.set( 38, this.#Up	);
+		this.#Keys.set( 39, this.#Right	);
+		this.#Keys.set( 40, this.#Down	);
 		
-		this.#keys.push( this.#_0 );
-		this.#keys.push( this.#_1 );
-		this.#keys.push( this.#_2 );
-		this.#keys.push( this.#_3 );
-		this.#keys.push( this.#_4 );
-		this.#keys.push( this.#_5 );
-		this.#keys.push( this.#_6 );
-		this.#keys.push( this.#_7 );
-		this.#keys.push( this.#_8 );
-		this.#keys.push( this.#_9 );
+		this.#Keys.set( 48, this.#_0 );
+		this.#Keys.set( 49, this.#_1 );
+		this.#Keys.set( 50, this.#_2 );
+		this.#Keys.set( 51, this.#_3 );
+		this.#Keys.set( 52, this.#_4 );
+		this.#Keys.set( 53, this.#_5 );
+		this.#Keys.set( 54, this.#_6 );
+		this.#Keys.set( 55, this.#_7 );
+		this.#Keys.set( 56, this.#_8 );
+		this.#Keys.set( 57, this.#_9 );
 		
-		this.#keys.push( this.#A );
-		this.#keys.push( this.#B );
-		this.#keys.push( this.#C );
-		this.#keys.push( this.#D );
-		this.#keys.push( this.#E );
-		this.#keys.push( this.#F );
-		this.#keys.push( this.#G );
-		this.#keys.push( this.#H );
-		this.#keys.push( this.#I );
-		this.#keys.push( this.#J );
-		this.#keys.push( this.#K );
-		this.#keys.push( this.#L );
-		this.#keys.push( this.#M );
-		this.#keys.push( this.#N );
-		this.#keys.push( this.#O );
-		this.#keys.push( this.#P );
-		this.#keys.push( this.#Q );
-		this.#keys.push( this.#R );
-		this.#keys.push( this.#S );
-		this.#keys.push( this.#T );
-		this.#keys.push( this.#U );
-		this.#keys.push( this.#V );
-		this.#keys.push( this.#W );
-		this.#keys.push( this.#X );
-		this.#keys.push( this.#Y );
-		this.#keys.push( this.#Z );
+		this.#Keys.set( 65, this.#A );
+		this.#Keys.set( 66, this.#B );
+		this.#Keys.set( 67, this.#C );
+		this.#Keys.set( 68, this.#D );
+		this.#Keys.set( 69, this.#E );
+		this.#Keys.set( 70, this.#F );
+		this.#Keys.set( 71, this.#G );
+		this.#Keys.set( 72, this.#H );
+		this.#Keys.set( 73, this.#I );
+		this.#Keys.set( 74, this.#J );
+		this.#Keys.set( 75, this.#K );
+		this.#Keys.set( 76, this.#L );
+		this.#Keys.set( 77, this.#M );
+		this.#Keys.set( 78, this.#N );
+		this.#Keys.set( 79, this.#O );
+		this.#Keys.set( 80, this.#P );
+		this.#Keys.set( 81, this.#Q );
+		this.#Keys.set( 82, this.#R );
+		this.#Keys.set( 83, this.#S );
+		this.#Keys.set( 84, this.#T );
+		this.#Keys.set( 85, this.#U );
+		this.#Keys.set( 86, this.#V );
+		this.#Keys.set( 87, this.#W );
+		this.#Keys.set( 88, this.#X );
+		this.#Keys.set( 89, this.#Y );
+		this.#Keys.set( 90, this.#Z );
 		
-		this.#keys.push( this.#Ten0 );
-		this.#keys.push( this.#Ten1 );
-		this.#keys.push( this.#Ten2 );
-		this.#keys.push( this.#Ten3 );
-		this.#keys.push( this.#Ten4 );
-		this.#keys.push( this.#Ten5 );
-		this.#keys.push( this.#Ten6 );
-		this.#keys.push( this.#Ten7 );
-		this.#keys.push( this.#Ten8 );
-		this.#keys.push( this.#Ten9 );
+		this.#Keys.set(  96, this.#Ten0 );
+		this.#Keys.set(  97, this.#Ten1 );
+		this.#Keys.set(  98, this.#Ten2 );
+		this.#Keys.set(  99, this.#Ten3 );
+		this.#Keys.set( 100, this.#Ten4 );
+		this.#Keys.set( 101, this.#Ten5 );
+		this.#Keys.set( 102, this.#Ten6 );
+		this.#Keys.set( 103, this.#Ten7 );
+		this.#Keys.set( 104, this.#Ten8 );
+		this.#Keys.set( 105, this.#Ten9 );
 	}
 	
-	onKeyDown( code ){
-		this.#codes[code] = true;
+	onKeyDown( e ){
+		if( this.#Keys.has( e.keyCode ) ){
+			this.#Keys.get( e.keyCode ).code = true;
+		}
 	}
-
-	onKeyUp( code ){
-		this.#codes[code] = false;
+	
+	onKeyUp( e ){
+		if( this.#Keys.has( e.keyCode ) ){
+			this.#Keys.get( e.keyCode ).code = false;
+		}
 	}
-
+	
 	Update(){
 		// キーボード
-		for( let i = 0 ; i < this.#keys.length ; i++ ){
-			if( this.#codes[this.#keys[i].code] ){
-				switch( this.#keys[i].state ){
+		for( let v of this.#Keys.values() ){
+			if( v.code ){
+				switch( v.state ){
 				case STOP:	break;
-				case FREE:	this.#keys[i].state = PUSH;	break;
-				case PUSH:	this.#keys[i].state = HOLD;	break;
+				case FREE:	v.state = PUSH;	break;
+				case PUSH:	v.state = HOLD;	break;
 				case HOLD:	break;
-				case PULL:	this.#keys[i].state = PUSH;	break;
+				case PULL:	v.state = PUSH;	break;
 				}
 			}else{
-				switch( this.#keys[i].state ){
+				switch( v.state ){
 				case STOP:	break;
 				case FREE:	break;
-				case PUSH:	this.#keys[i].state = PULL;	break;
-				case HOLD:	this.#keys[i].state = PULL;	break;
-				case PULL:	this.#keys[i].state = FREE;	break;
+				case PUSH:	v.state = PULL;	break;
+				case HOLD:	v.state = PULL;	break;
+				case PULL:	v.state = FREE;	break;
 				}
 			}
 		}
 		
 		// マウス
-		if( this.#Mouse.button ){
-			switch( this.#Mouse.State ){
+		if( this.#Mouse.L_Button ){
+			switch( this.#Mouse.L ){
 			case STOP:	break;
-			case FREE:	this.#Mouse.State = PUSH;	break;
-			case PUSH:	this.#Mouse.State = HOLD;	break;
+			case FREE:	this.#Mouse.L = PUSH;	break;
+			case PUSH:	this.#Mouse.L = HOLD;	break;
 			case HOLD:	break;
-			case PULL:	this.#Mouse.State = PUSH;	break;
+			case PULL:	this.#Mouse.L = PUSH;	break;
 			}
 		}else{
-			switch( this.#Mouse.State ){
+			switch( this.#Mouse.L ){
 			case STOP:	break;
 			case FREE:	break;
-			case PUSH:	this.#Mouse.State = PULL;	break;
-			case HOLD:	this.#Mouse.State = PULL;	break;
-			case PULL:	this.#Mouse.State = FREE;	break;
+			case PUSH:	this.#Mouse.L = PULL;	break;
+			case HOLD:	this.#Mouse.L = PULL;	break;
+			case PULL:	this.#Mouse.L = FREE;	break;
 			}
 		}
 		
@@ -402,7 +450,6 @@ class CInput{
 			this.#Pad.RX = pad.axes[2];
 			this.#Pad.RY = pad.axes[3];
 		}
-	}
+	}// Update()
 }
-
 const Input = new CInput();

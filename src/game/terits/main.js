@@ -1011,18 +1011,6 @@ var game = function(){
 	}
 }
 
-// ページスクロール抑制
-var keydownfunc = function( event ){
-	var code = event.keyCode;
-	switch( code ){
-	case 32:	// Space
-	case 37:	// ←
-	case 38:	// ↑
-	case 39:	// →
-	case 40:	// ↓
-		event.preventDefault();
-	}
-}
 
 //=========================================================
 // 所謂メイン関数
@@ -1030,26 +1018,33 @@ var keydownfunc = function( event ){
 window.onload = function(){
 
 	// ページスクロール抑制
-	window.addEventListener( 'keydown', keydownfunc, true );
-
-    var canvas = document.getElementById("myCanvas");
-    if (!canvas.getContext) return;
-    var context = canvas.getContext("2d");
-
-    var gamemode = new title();
-
-	canvas.onmousedown = function(){
-		Input.Mouse.button = true;
-	}
-	canvas.onmouseup = function(){
-		Input.Mouse.button = false;
+	window.addEventListener( "keydown", (e) => {
+		let code = e.keyCode;
+		switch( code ){
+		case 32:	// Space
+		case 37:	// ←
+		case 38:	// ↑
+		case 39:	// →
+		case 40:	// ↓
+			e.preventDefault();
+		}
+	});
+	
+	// キーが押された時
+	document.onkeydown = function(e){
+		Input.onKeyDown( e );
 	}
 	
-	canvas.addEventListener( "mousemove", function(e){
-		let rect = e.target.getBoundingClientRect();
-		Input.Mouse.x = e.clientX - rect.left
-		Input.Mouse.y = e.clientY - rect.top
-	});
+	// キーが離された時
+	document.onkeyup = (e) => {
+		Input.onKeyUp( e );
+	}
+	
+	var canvas = document.getElementById("myCanvas");
+	if (!canvas.getContext) return;
+	var context = canvas.getContext("2d");
+
+	var gamemode = new title();
 
 	// メインループ
 	setInterval( function(){

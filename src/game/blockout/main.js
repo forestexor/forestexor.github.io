@@ -563,10 +563,11 @@ let title = function(){
 		ctx.fillText( "←      →", 250, 403 );
 		
 		// 右側情報
-		ctx.lineWidth = 1;
+		ctx.lineWidth = 2;
 		ctx.strokeStyle = "white";
 		ctx.strokeRect( 500, 1, 139, 478 );
 		
+		ctx.lineWidth = 1;
 		ctx.textAlign = "center";
 		ctx.font = "30px 'Arial'";
 		ctx.strokeText( "Score", 570, 40 );
@@ -700,10 +701,11 @@ let maingame = function(){
 	
 	this.FrameRender = function( ctx ){
 		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
-		ctx.lineWidth = 1;
+		ctx.lineWidth = 2;
 		ctx.strokeStyle = "white";
 		ctx.strokeRect( 500, 1, 139, 478 );
 		
+		ctx.lineWidth = 1;
 		ctx.textAlign = "center";
 		ctx.font = "30px 'Arial'";
 		ctx.strokeText( "Score", 570, 40 );
@@ -795,10 +797,11 @@ let gameover = function(){
 	this.FrameRender = function( ctx ){
 		
 		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
-		ctx.lineWidth = 1;
+		ctx.lineWidth = 2;
 		ctx.strokeStyle = "white";
 		ctx.strokeRect( 500, 1, 139, 478 );
 		
+		ctx.lineWidth = 1;
 		ctx.textAlign = "center";
 		ctx.font = "30px 'Arial'";
 		ctx.strokeText( "Score", 570, 40 );
@@ -896,10 +899,11 @@ let gameclear = function(){
 	
 	this.FrameRender = function( ctx ){
 		ctx.setTransform( 1, 0, 0, 1, 0, 0 );
-		ctx.lineWidth = 1;
+		ctx.lineWidth = 2;
 		ctx.strokeStyle = "white";
 		ctx.strokeRect( 500, 1, 139, 478 );
 		
+		ctx.lineWidth = 1;
 		ctx.textAlign = "center";
 		ctx.font = "30px 'Arial'";
 		ctx.strokeText( "Score", 570, 40 );
@@ -945,3 +949,55 @@ let gameclear = function(){
 		ctx.strokeText( "Game Clear", 250, 180 );
 	}
 }
+
+
+//=========================================================
+// 所謂メイン関数
+//---------------------------------------------------------
+window.onload = function(){
+		
+	// ページスクロール抑制
+	window.addEventListener( "keydown", (e) => {
+		let code = e.keyCode;
+		switch( code ){
+		case 32:	// Space
+		case 37:	// ←
+		case 38:	// ↑
+		case 39:	// →
+		case 40:	// ↓
+			e.preventDefault();
+		}
+	});
+	
+	// キーが押された時
+	document.onkeydown = function(e){
+		Input.onKeyDown( e );
+	}
+	
+	// キーが離された時
+	document.onkeyup = (e) => {
+		Input.onKeyUp( e );
+	}
+	
+	// キャンバス取得
+    let canvas = document.getElementById("myCanvas");
+	if( !canvas.getContext ){ return; }
+	
+	// コンテキスト取得
+	let context = canvas.getContext("2d");
+	
+	// ゲームクラスをインスタンス
+    let game = new CGame( canvas, context );
+	
+	// fpsを設定
+	const fps = 1000 / 60;	// (1000 / 60) = 16.66666 = 60fps
+
+	// メインループ
+	setInterval( () => {
+		// 入力機器更新
+		Input.Update();
+		// ゲーム更新
+		game.Run();
+	}, fps );
+}
+

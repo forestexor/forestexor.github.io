@@ -264,6 +264,26 @@
 			}
 			
 			// ゲーム
+			if( -1 != location.href.lastIndexOf( "#blockout" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "src/game/blockout/index.html";
+			}
+			if( -1 != location.href.lastIndexOf( "#15puzzle" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "src/game/15puzzle/index.html";
+			}
+			if( -1 != location.href.lastIndexOf( "#terits" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "src/game/terits/index.html";
+			}
+			if( -1 != location.href.lastIndexOf( "#stg" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "src/game/stg/index.html";
+			}
+			if( -1 != location.href.lastIndexOf( "#test0" ) ){
+				let frame = document.getElementById("frame");
+				frame.src = "src/game/test/test0.html";
+			}
 			if( -1 != location.href.lastIndexOf( "#particle" ) ){
 				let frame = document.getElementById("frame");
 				frame.src = "src/game/particle/index.html";
@@ -288,10 +308,10 @@
 			<li id="game">
 				<a href="#" style="pointer-events:none;">Game</a>
 				<ul class="sub_menu">
-					<li><a href="src/game/blockout/blockout.html" target="frame">ブロック崩し</a></li>
-					<li><a href="src/game/15puzzle/15puzzle.html" target="frame">15パズル</a></li>
-					<li><a href="src/game/terits/terits.html" target="frame">テリトス</a></li>
-					<li><a href="src/game/stg/stg.html" target="frame">STG</a></li>
+					<li><a href="src/game/blockout/index.html" target="frame">ブロック崩し</a></li>
+					<li><a href="src/game/15puzzle/index.html" target="frame">15パズル</a></li>
+					<li><a href="src/game/terits/index.html" target="frame">テリトス</a></li>
+					<li><a href="src/game/stg/index.html" target="frame">STG</a></li>
 					<li><a href="src/game/test/test0.html" target="frame">テスト(当たり判定)</a></li>
 					<li><a href="src/game/particle/index.html" target="frame">テスト(Particle)</a></li>
 				</ul>

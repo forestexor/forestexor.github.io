@@ -7,10 +7,9 @@
 	<link rel="apple-touch-icon" href="../../../favicon.png" sizes="152x152">
 	<title>15パズル</title>
 	
-	<script type="text/javascript" src="../math.js"></script>
-	<script type="text/javascript" src="../input.js"></script>
-	<script type="text/javascript" src="game.js"></script>
-	<script type="text/javascript" src="../main.js"></script>
+	<script type="text/javascript" src="math.js"></script>
+	<script type="text/javascript" src="input.js"></script>
+	<script type="text/javascript" src="main.js"></script>
 	
 	<style type="text/css">
 		body{
@@ -20,6 +19,13 @@
 		
 		.game{
 			margin-top : 20px;
+		}
+		
+		#myCanvas{
+			border-top		: inset		3px;
+			border-bottom	: outset	3px;
+			border-left		: outset	3px;
+			border-right	: inset		3px;
 		}
 		
 		.manual{
@@ -35,14 +41,10 @@
 	</style>
 </head>
 
-<!-- キー取得 -->
-<body
-onKeyDown ="Input.onKeyDown(event.keyCode)"
-onKeyUp   ="Input.onKeyUp(event.keyCode)">
-
+<body>
 	<div class="game">
 		<!-- キャンバス -->
-		<canvas id = "myCanvas" width = "512" height = "512" style="background:black"></canvas>
+		<canvas id="myCanvas" width="512" height="512" style="background:black;"></canvas>
 		<img src="../resource/15puzzle.png" title="Sample" width="256" height="256">
 	</div>
 	<hr/>
@@ -59,7 +61,6 @@ onKeyUp   ="Input.onKeyUp(event.keyCode)">
 		色々と考え足らずで作ったせいでマスの交換処理を盛大にミスしてコードがほぼ崩壊状態になってしまった…<br/>
 		1次元配列より2次元配列で作った方が良かった気がする…と色々反省。<br/>
 		あと相変わらず不定期に作ってるせいでJavaScript忘れてる。<br/>
-	</div>
-	
+	<div>
 </body>
 </html>

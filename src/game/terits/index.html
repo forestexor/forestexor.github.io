@@ -6,7 +6,7 @@
 	<link rel="icon" href="../../../favicon.ico">
 	<link rel="apple-touch-icon" href="../../../favicon.png" sizes="152x152">
 	<title>Terits</title>
-	<script type="text/javascript" src="../input.js"></script>
+	<script type="text/javascript" src="input.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 	<style type="text/css">
 		body{
@@ -16,6 +16,13 @@
 		
 		.game{
 			margin-top : 20px;
+		}
+		
+		#myCanvas{
+			border-top		: inset		3px;
+			border-bottom	: outset	3px;
+			border-left		: outset	3px;
+			border-right	: inset		3px;
 		}
 		
 		.manual{
@@ -31,14 +38,10 @@
 	</style>
 </head>
 
-<!-- キー取得 -->
-<body
-onKeyDown ="Input.onKeyDown(event.keyCode)"
-onKeyUp   ="Input.onKeyUp(event.keyCode)">
-
+<body>
 	<div class="game">
 		<!-- キャンバス -->
-		<canvas id = "myCanvas" width = "640" height = "480" style="background:black"></canvas>
+		<canvas id="myCanvas" width="640" height="480" style="background:black;"></canvas>
 	</div>
 	<hr/>
 	
@@ -57,11 +60,10 @@ onKeyUp   ="Input.onKeyUp(event.keyCode)">
 			勝手に友人のSoundCloudから無許可で貼り付けてみた。<br/>
 			(曲が終わるとゲームからフォーカスが外れてキー入力ができなくなる模様<br/>
 			 ゲーム画面クリックで直ります)<br/>
-	</div>
+	<div>
 	
 	<div>
 		<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/522831639&color=%23ff5500&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>
 	</div>
-	
 </body>
 </html>

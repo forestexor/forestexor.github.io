@@ -26,7 +26,7 @@ class CTitle{
 
 	// 更新メソッド
 	FrameMove(){
-		if( PUSH == Input.Mouse.State ){
+		if( PUSH == Input.Mouse.L ){
 			return new CMainGame();
 		}
 		return this;
@@ -403,7 +403,7 @@ class CMainGame{
 		}
 		
 		// マウス当たり判定
-		if( 0 == this.moveFlg && PUSH == Input.Mouse.State ){
+		if( (0 == this.moveFlg) && (PUSH == Input.Mouse.L) ){
 			for( var i = 0 ; i < 15 ; i++ ){
 				if( Input.Mouse.x >= this.Panels[i].x && Input.Mouse.x <= (this.Panels[i].x+128) ){
 					if( Input.Mouse.y >= this.Panels[i].y && Input.Mouse.y <= (this.Panels[i].y+128) ){
@@ -600,3 +600,56 @@ class CMainGame{
 	}
 }
 
+//=========================================================
+// 所謂メイン関数
+//---------------------------------------------------------
+window.onload = function(){
+		
+	// ページスクロール抑制
+	window.addEventListener( "keydown", (e) => {
+		let code = e.keyCode;
+		switch( code ){
+		case 32:	// Space
+		case 37:	// ←
+		case 38:	// ↑
+		case 39:	// →
+		case 40:	// ↓
+			e.preventDefault();
+		}
+	});
+	
+	// キャンバス取得
+    let canvas = document.getElementById("myCanvas");
+	if( !canvas.getContext ){ return; }
+	
+	// マウス左クリック取得
+	canvas.onmousedown = function(){
+		Input.Mouse.L_Button = true;
+	}
+	canvas.onmouseup = () => {
+		Input.Mouse.L_Button = false;
+	}
+	// マウス座標取得
+	canvas.addEventListener( "mousemove", (e) => {
+		let rect = e.target.getBoundingClientRect();
+		Input.Mouse.x = e.clientX - rect.left;
+		Input.Mouse.y = e.clientY - rect.top;
+	});
+	
+	// コンテキスト取得
+	let context = canvas.getContext("2d");
+	
+	// ゲームクラスをインスタンス
+    let game = new CGame( canvas, context );
+	
+	// fpsを設定
+	const fps = 1000 / 60;	// (1000 / 60) = 16.66666 = 60fps
+
+	// メインループ
+	setInterval( () => {
+		// 入力機器更新
+		Input.Update();
+		// ゲーム更新
+		game.Run();
+	}, fps );
+}

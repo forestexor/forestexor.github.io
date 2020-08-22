@@ -6,21 +6,27 @@
 	<link rel="icon" href="../../../favicon.ico">
 	<link rel="apple-touch-icon" href="../../../favicon.png" sizes="152x152">
 	<title>test0</title>
-	<script type="text/javascript" src="../math.js"></script>
-	<script type="text/javascript" src="../input.js"></script>
-	<script type="text/javascript" src="../vector2.js"></script>
-	<script type="text/javascript" src="../vector3.js"></script>
-	<script type="text/javascript" src="../matrix.js"></script>
-	<script type="text/javascript" src="../collision.js"></script>
+	<script type="text/javascript" src="math.js"></script>
+	<script type="text/javascript" src="input.js"></script>
+	<script type="text/javascript" src="vector2.js"></script>
+	<script type="text/javascript" src="vector3.js"></script>
+	<script type="text/javascript" src="matrix.js"></script>
+	<script type="text/javascript" src="collision.js"></script>
 	<script type="text/javascript" src="test0.js"></script>
 	<style type="text/css">
 		body{
-			//width : 100%;
 			text-align : center;
 		}
 		
 		.game{
 			margin-top : 20px;
+		}
+		
+		#myCanvas{
+			border-top		: inset		3px;
+			border-bottom	: outset	3px;
+			border-left		: outset	3px;
+			border-right	: inset		3px;
 		}
 		
 		.manual{
@@ -36,29 +42,25 @@
 	</style>
 </head>
 
-<!-- キー取得 -->
-<body
-onKeyDown ="Input.onKeyDown(event.keyCode)"
-onKeyUp   ="Input.onKeyUp(event.keyCode)">
-
+<body>
 	<div class="game">
 		<!-- キャンバス -->
-		<canvas id = "myCanvas" width = "640" height = "480" style="background:black"></canvas>
+		<canvas id="myCanvas" width="640" height="480" style="background:black;"></canvas>
 	</div>
-	<hr>
+	<hr/>
 	
 	<div class="manual">
 		<p size="5px">
-			テスト環境<br>
+			テスト環境<br/>
 		</p>
-		コリジョンテスト<br>
-		1～8：オブジェクト選択（テンキーではない）<br>
-		Q：選択オブジェクト→幽体<br>
-		W：選択オブジェクト→STATIC<br>
-		E：選択オブジェクト→DYNAMIC<br>
-		←→↑↓：選択オブジェクト移動<br>
-		R+←→：選択オブジェクト回転<br>
-	</div>
+		コリジョンテスト<br/>
+		1～8：オブジェクト選択（テンキーではない）<br/>
+		Q：選択オブジェクト→幽体<br/>
+		W：選択オブジェクト→STATIC<br/>
+		E：選択オブジェクト→DYNAMIC<br/>
+		←→↑↓：選択オブジェクト移動<br/>
+		R+←→：選択オブジェクト回転<br/>
+	<div>
 	
 </body>
 </html>

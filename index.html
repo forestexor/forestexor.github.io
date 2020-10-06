@@ -18,148 +18,144 @@
 	<title>ForestEXOR Games</title>
 	<style>
 		html{
-			height : 100%;
+			height: 100%;
 		}
 		
 		body{
-			height : 100%;
-			margin : 0px;
-			padding : 0px;
-			text-align : center;
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			text-align: center;
 			background: #f9f9f9 url('src/img/background.jpg') no-repeat center top;
-			background-size:contain;
+			background-size: contain;
 		}
 		
 		#wrapper{
-			width : auto;
-			height : 100%;
+			width: auto;
+			height: 100%;
 		}
 		
 		#head{
-			height : 3%;
+			height: 3%;
 		}
 		
 		/* contents */
 		#contents{
-			height : 97%;
+			height: 97%;
 		}
 		
 		iframe{
-			width : 100%;
-			height : 100%;
-			border : none;
+			width: 100%;
+			height: 100%;
+			border: none;
 			margin: 0;
 			padding: 0;
 		}
 		
 		ul{
-			list-style-type : none;
+			list-style-type: none;
 //			font-weight: bold;
 		}
 		
 		a{
-			display : block;
-			text-decoration : none;
-			color : #ffffff;
+			display: block;
+			text-decoration: none;
+			color: #ffffff;
 		}
 		
 		a:hover{
-			display : block;
-			text-decoration : none;
+			display: block;
+			text-decoration: none;
 		}
 		
 		#menu{
 			position: relative;
-			margin : 0px;
-			padding : 0px;
-			background : linear-gradient( #888888, #000000 );
+			margin: 0px;
+			padding: 0px;
+			background: linear-gradient( #888888, #000000 );
 		}
 		
 		#menu > li{
-			text-align : center;
-			display : inline-block;
-			padding : 0px;
-			width : 90px;
+			text-align: center;
+			display: inline-block;
+			padding: 0px;
+			width: 100px;
 		}
 		#menu > li:hover{
-			background : linear-gradient( #dddddd, #555555 );
+			background: linear-gradient( #dddddd, #555555 );
 		}
 		
 		ul.sub_menu{
 			visibility: hidden;
 			opacity: 0;
-			margin : 0px;
-			padding : 0px;
+			margin: 0px;
+			padding: 0px;
 		}
 		
 		ul.link_menu{
 			visibility: hidden;
 			opacity: 0;
-			margin : 0px;
-			padding : 0px;
+			margin: 0px;
+			padding: 0px;
 		}
 		
 		.sub_menu > li:hover{
-			background : #ffffff7f;
+			background: #ffffff7f;
 		}
 		.sub_menu > li > a:hover{
-			color : #000000;
+			color: #000000;
 		}
 		
 		
 		/* Photo */
 		#menu > li#photo{
-			position : relative;
+			position: relative;
 		}
 
 		li#photo ul.sub_menu{
-			position : absolute;
-			width:90px;
-			margin : 0px;
-			background : #00000080;
-			-webkit-transition : all .2s ease;
-			transition : all .2s ease;
+			position: absolute;
+			width: 100px;
+			margin: 0px;
+			background: #00000080;
+			-webkit-transition: all .2s ease;
+			transition: all .2s ease;
 		}
 		
 		li#photo:hover ul.sub_menu{
-			visibility : visible;
-			opacity : 1;
+			visibility: visible;
+			opacity: 1;
 		}
 		
 		#menu > li#photo{
-			position : relative;
+			position: relative;
 		}
 		li#photo ul.sub_menu{
-			position : absolute;
-//			top : 19px;
-			top : 80%;
-			-webkit-transition : all .2s ease;
-			transition : all .2s ease;
+			position: absolute;
+			top: 80%;
+			-webkit-transition: all .2s ease;
+			transition: all .2s ease;
 		}
 		li#photo:hover ul.sub_menu{
-//			top : 24px;
-			top : 100%;
-			visibility : visible;
-			opacity : 1;
+			top: 100%;
+			visibility: visible;
+			opacity: 1;
 		}
 		
 		
 		/* Game */
 		li#game ul.sub_menu{
-			margin : 0px;
+			margin: 0px;
 			position: absolute;
 			left: 0;
 			box-sizing: border-box;
 			width: 100%;
-			background : #00000080;
-//			top: 19px;
+			background: #00000080;
 			top: 80%;
 			-webkit-transition: all .2s ease;
 			transition: all .2s ease;
 		}
 		
 		li#game:hover ul.sub_menu{
-//			top: 24px;
 			top: 100%;
 			visibility: visible;
 			opacity: 1;
@@ -177,6 +173,42 @@
 		}
 		
 		
+		/* SNS */
+		#menu > li#sns{
+			position: relative;
+		}
+
+		li#sns ul.sub_menu{
+			text-align: left;
+			position: absolute;
+			width: 215px;
+			margin: 0px;
+			background: #00000080;
+			-webkit-transition: all .2s ease;
+			transition: all .2s ease;
+		}
+		
+		li#sns:hover ul.sub_menu{
+			visibility: visible;
+			opacity: 1;
+		}
+		
+		#menu > li#sns{
+			position: relative;
+		}
+		li#sns ul.sub_menu{
+			position: absolute;
+			top: 80%;
+			-webkit-transition: all .2s ease;
+			transition: all .2s ease;
+		}
+		li#sns:hover ul.sub_menu{
+			top: 100%;
+			visibility: visible;
+			opacity: 1;
+		}
+		
+		
 		/* Link */
 		#menu > li#link{
 			position: relative;
@@ -184,17 +216,15 @@
 		
 		li#link ul.sub_menu{
 			position: absolute;
-			width: 90px;
+			width: 100px;
 			margin: 0px;
 			background : #00000080;
-//			top: 19px;
 			top: 80%;
 			-webkit-transition: all .2s ease;
 			transition: all .2s ease;
 		}
 
 		li#link:hover ul.sub_menu{
-//			top: 24px;
 			top: 100%;
 			visibility: visible;
 			opacity: 1;
@@ -206,14 +236,15 @@
 		
 		li#link ul.sub_menu li:hover{
 			background: #ffffff7f;
-			visibility : visible;
-			opacity : 1;
+			visibility: visible;
+			opacity: 1;
 		}
 		li#link ul.sub_menu li:hover a{
 			color: #000000
 		}
 		
 		li#link ul.sub_menu li ul.link_menu{
+			text-align: left;
 			position: absolute;
 			top: 0px;
 			left: 100%;
@@ -299,7 +330,7 @@
 	<header id="head">
 		<ul id="menu">
 			<!-- Top -->
-			<li><a href="src/top.html" target="frame">TOP</a></li>
+			<li><a href="src/top.html" target="frame">Top</a></li>
 			
 			<!-- About -->
 			<li><a href="src/about.html" target="frame">About</a></li>
@@ -329,11 +360,15 @@
 			<!-- Blog -->
 			<li><a href="https://forestexor.hateblo.jp/" target="_blank">Blog</a></li>
 			
-			<!-- Twitter -->
-			<li><a href="https://twitter.com/Forestexor" target="_blank">Twitter</a></li>
-			
-			<!-- Twitter -->
-			<li><a href="https://www.instagram.com/forestexor/" target="_blank">Instagram</a></li>
+			<!-- SNS -->
+			<li id="sns">
+				<a href="#" style="pointer-events:none;">SNS</a>
+				<ul class="sub_menu">
+					<li><a href="https://twitter.com/ForestEXOR" target="_blank">&nbsp;Twitter@ForestEXOR</a></li>
+					<li><a href="https://twitter.com/ForestEXOR_Dog" target="_blank">&nbsp;Twitter@ForestEXOR_Dog</a></li>
+					<li><a href="https://www.instagram.com/forestexor/" target="_blank">&nbsp;Instagram</a></li>
+				</ul>
+			</li>
 			
 			<!-- Link -->
 			<li id="link">
@@ -342,15 +377,15 @@
 					<li>
 						<a href="#" style="pointer-events:none;">Friend</a>
 						<ul class="link_menu">
-							<li><a href="https://coposuke.github.io/" target="_blank">コポホーム</a></li>
-							<li><a href="https://coposuke.hateblo.jp/" target="_blank">コポうぇぶろぐ</a></li>
+							<li><a href="https://coposuke.github.io/" target="_blank">&nbsp;コポホーム</a></li>
+							<li><a href="https://coposuke.hateblo.jp/" target="_blank">&nbsp;コポうぇぶろぐ</a></li>
 						</ul>
 					</li>
 					<li>
 						<a href="#" style="pointer-events:none;">Oher</a>
 						<ul class="link_menu">
-							<li><a href="https://www.google.co.jp/" target="_blank">Google</a></li>
-							<li><a href="https://www.yahoo.co.jp/" target="_blank">Yahoo! JAPAN</a></li>
+							<li><a href="https://www.google.co.jp/" target="_blank">&nbsp;Google</a></li>
+							<li><a href="https://www.yahoo.co.jp/" target="_blank">&nbsp;Yahoo! JAPAN</a></li>
 						</ul>
 					</li>
 				</ul>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" type="image/x-icon" href="../../../favicon.ico">
+	<link rel="icon" href="../../../favicon.ico">
+	<link rel="apple-touch-icon" href="../../../favicon.png" sizes="152x152">
+	<title>Shader</title>
+	<script type="text/javascript" src="mesh.js"></script>
+	<script type="text/javascript" src="shader.js"></script>
+	<script type="text/javascript" src="matrix.js"></script>
+	<script type="text/javascript" src="input.js"></script>
+	<script type="text/javascript" src="main.js"></script>
+	<style type="text/css">
+		body{
+			text-align: center;
+		}
+		
+		input{
+			width: 50px;
+		}
+		
+		#myCanvas{
+			border-top		: inset		3px;
+			border-bottom	: outset	3px;
+			border-left		: outset	3px;
+			border-right	: inset		3px;
+		}
+		
+		.manual{
+			text-align : left;
+			position : relative;
+			right : 0px;
+			display : inline-block;
+		}
+		
+		p{
+			font-weight : bold;
+		}
+	</style>
+</head>
+<body>
+	<table style="display:inline-block;">
+	<tr>
+	<td style="vertical-align:top;">
+		<!-- キャンバス -->
+		<canvas id="myCanvas" width="640" height="480" style="background:Black;"></canvas>
+	</td>
+	<td>
+		<table>
+			<tr>
+				<td>
+					<select id="type">
+						<option value="Basic">ベーシック</option>
+						<option value="HL">ハーフランバート</option>
+						<option value="Phong">フォン</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td align="left">・フォン</td><td></td><td></td>
+			</tr>
+			<tr>
+				<td align="right">範囲</td><td>:</td>
+				<td>
+					<input type="number" step="0.1" max="50" min="0" value="5" id="Range"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">強さ</td><td>:</td>
+				<td>
+					<input type="number" step="0.1" max="10" min="0" value="0.7" id="Power"/>
+				</td>
+			</tr>
+		</table>
+	</td>
+	</tr>
+	</table>
+	
+	<hr>
+	
+	<div class="manual">
+		<table>
+		<tr>
+			<td align="center">↑↓←→</td><td>:</td><td>カメラ上下左右移動</td>
+		</tr>
+		<tr>
+			<td align="center">Z</td><td>:</td><td>モデルに近づく</td>
+		</tr>
+		<tr>
+			<td align="center">X</td><td>:</td><td>モデルから遠ざかる</td>
+		</tr>
+		<tr>
+			<td align="center">L+↑↓←→</td><td>:</td><td>ライト上下左右移動</td>
+		</tr>
+		<tr>
+			<td align="center">A</td><td>:</td><td>モデルアニメーションON・OFF</td>
+		</tr>
+		</table>
+	</div>
+</body>
+</html>
